@@ -1,7 +1,7 @@
 <template>
   <div id="add-blog">
     <h2>Add New post</h2>
-    <form>
+    <form v-if="!submitted">
       <label>Blog title</label>
       <input type="text" v-model.lazy="blog.title" required>
       <label>Blog Content</label>
@@ -10,9 +10,17 @@
         <label>Ninja</label>
         <input type="checkbox" value="ninja" v-model="blog.cat" />
         <label>Mario</label>
-        <input type="checkbox" value="mario" v-model="blog.cat"/>
+        <input type="checkbox" value="mario" v-model="blog.cat" />
       </div>
+      <p>Author: </p>
+      <select v-model="blog.auth">
+        <option v-for="auth in authors">{{ auth }}</option>
+      </select>
+      <button v-on:click="post">Add Blog</button>
     </form>
+    <div v-if="submitted"> 
+        Thank You ! 
+    </div>
     <div id="preview">
       <h3>Preview Blog</h3>
       <p>Blog Title: {{ blog.title }}</p>
@@ -21,6 +29,7 @@
       <ul>
         <li v-for="cat in blog.cat">{{ cat }}</li>
       </ul>
+      <p>Blog Content: {{ blog.auth }}</p>
     </div>
   </div>
 </template>
@@ -33,9 +42,22 @@ export default {
       blog: {
         title: "",
         content: "",
-        cat:[]
-      }
+        cat: [],
+        auth:""
+      },
+      authors: ["Author1", "Author2"],
+      submitted: false
     }
+  }, 
+  methods: {
+      post: function (){
+          this.$http.post("https://jsonplaceholder.typicode.com/posts",{
+              title: this.blog.title
+          }).then(function(data){
+              console.log(data); 
+              this.submitted = true;
+          })
+      }
   }
 }
 </script>
@@ -72,13 +94,12 @@ h3 {
 }
 
 #checkboxes {
-  display:inline-block;
+  display: inline-block;
   margin-right: 10px;
 }
 
-#checkboxes label{
-  display:inline-block;
+#checkboxes label {
+  display: inline-block;
 }
-
 </style>
 

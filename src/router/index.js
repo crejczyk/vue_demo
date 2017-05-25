@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import AddBlog from '@/components/AddBlog'
+import ShowBlogs from '@/components/ShowBlogs'
 
 Vue.use(Router)
 
@@ -13,6 +14,11 @@ export default new Router({
       path: '/AddBlog',
       name: 'AddBlog',
       component: AddBlog
+    },
+    {
+      path: '/ShowBlogs',
+      name: 'ShowBlogs',
+      component: ShowBlogs
     },
     {
       path: '/',
